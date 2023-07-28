@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>BoxingStickman</title>
+    <title>Flexible Boxing</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
 
@@ -37,51 +37,27 @@
 
 
 
-
 </head>
 <body class="dark">
-<div id="unity-container" class="unity-desktop">
-    <canvas id="unity-canvas"></canvas>
-</div>
-<div id="loading-cover" style="display:none;">
-    <div id="unity-loading-bar">
-        <div id="unity-logo"><img src="logo.png"></div>
-        <div id="unity-progress-bar-empty" style="display: none;">
-            <div id="unity-progress-bar-full"></div>
-        </div>
-        <div class="spinner"></div>
+    <div id="unity-container" class="unity-desktop">
+        <canvas id="unity-canvas"></canvas>
     </div>
-</div>
+    <div id="loading-cover" style="display:none;">
+        <div id="unity-loading-bar">
+            <div id="unity-logo"><img src="logo.png"></div>
+            <div id="unity-progress-bar-empty" style="display: none;">
+                <div id="unity-progress-bar-full"></div>
+            </div>
+            <div class="spinner"></div>
+        </div>
+    </div>
 
 
 
 
-<script>
-    mergeInto(LibraryManager.library, {
-        UploadFile: function (objectName, successCallback, errorCallback) {
-            var input = document.createElement('input');
-            input.type = 'file';
-            input.accept = 'image/*'; // Принимать только изображения
-            input.onchange = function () {
-                var file = input.files[0];
-                var reader = new FileReader();
-                reader.onload = function () {
-                    var data = new Uint8Array(reader.result);
-                    var buffer = Module._malloc(data.length);
-                    Module.HEAPU8.set(data, buffer);
-                    Module.ccall(successCallback, 'null', ['string', 'number', 'number'], [objectName, buffer, data.length]);
-                    Module._free(buffer);
-                };
-                reader.onerror = function () {
-                    Module.ccall(errorCallback, 'null', ['string', 'number'], [objectName, reader.error.code]);
-                };
-                reader.readAsArrayBuffer(file);
-            };
-            input.click();
-        }
-    });
-</script>
-<script>
+    
+
+    <script>
     const hideFullScreenButton = "";
     const buildUrl = "Build";
     const loaderUrl = buildUrl + "/Boxing.loader.js";
@@ -90,8 +66,8 @@
         frameworkUrl: buildUrl + "/Boxing.framework.js",
         codeUrl: buildUrl + "/Boxing.wasm",
         streamingAssetsUrl: "StreamingAssets",
-        companyName: "DefaultCompany",
-        productName: "BoxingStickman",
+        companyName: "Sepuka Games",
+        productName: "Flexible Boxing",
         productVersion: "1.0",
     };
 
@@ -128,7 +104,7 @@
     loadingCover.style.display = "";
 
     canvas.addEventListener("touchstart", () => { window.focus() });
-    canvas.addEventListener("pointerdown", () => { window.focus() }); 
+    canvas.addEventListener("pointerdown", () => { window.focus() });
 
     let player;
     let leaderboard;
@@ -360,7 +336,7 @@
         try {
             ysdk.getPayments().then(_payments => {
                 console.log('Purchases are available');
-                payments = _payments;                
+                payments = _payments;
             }).catch(e => {
                 console.log('Purchases are not available', e.message);
             })
@@ -389,7 +365,7 @@
             window.focus();
         }
     }
-    
+
     function GetPayments() {
         try {
             if (payments != null) {
@@ -401,7 +377,7 @@
                         let imageURI = [products.length];
                         let priceValue = [products.length];
                         let purchased = [products.length];
-    
+
                         for (i = 0; i < products.length; i++) {
                             productID[i] = products[i].id;
                             title[i] = products[i].title;
@@ -410,7 +386,7 @@
                             priceValue[i] = products[i].priceValue;
                             purchased[i] = 0;
                         }
-    
+
                         payments.getPurchases().then(purchases => {
                             for (i1 = 0; i1 < products.length; i1++) {
                                 for (i2 = 0; i2 < purchases.length; i2++) {
@@ -689,6 +665,6 @@
     }
 
     document.body.appendChild(script);
-</script>
+    </script>
 </body>
 </html>
